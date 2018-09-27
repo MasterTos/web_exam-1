@@ -28,7 +28,7 @@ DEBUG = False
 SOCIAL_AUTH_TU_KEY = 'B5Tj2w67duvh526HFKfq56r26KZDLqErOAhJFSHZ'
 SOCIAL_AUTH_TU_SECRET = 'MqeaPPYwDavT7btUqhFr2Hp8gnfHBlh4WJicA4quccxPnESmvoCjzkuNeOcx2Sdlc0KpLc7sxYqvQaJnkKG59OT7jjdko85tdIotle8M71ngm9sbspMZwINspGhjSG45'
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'exam.service.sci.tu.ac.th']
 LOGIN_REDIRECT_URL = '/'
 
 

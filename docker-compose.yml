@@ -1,19 +1,55 @@
 version: '2'
-
 services:
   db_exam:
+    image: postgres:alpine
     container_name: postgres_exam
-    image: postgres
+    volumes:
+    - /home/kubelab/data/exam_data:/var/lib/postgresql/data
+    networks:
+    - internal
+    labels:
+    - traefik.enable=false
+    restart: always
+
+  nginx_exam:
+    image: nginx:alpine
+    container_name: nginx_exam
+    volumes:
+    - ./static:/usr/share/nginx/html/static
+    - ./media:/usr/share/nginx/html/media
+    networks:
+    - internal
+    - proxy
+    labels:
+    - traefik.backend=nginx_exam
+    - traefik.docker.network=proxy
+    - traefik.enable=true
+    - traefik.frontend.rule=Host:exam.service.sci.tu.ac.th;PathPrefix:/static/,/media/
+    - traefik.port=80
+    depends_on:
+    - web_exam
     restart: always
 
   web_exam:
-    container_name: web_exam
-    build: ./exam
+    build: .
     command: sh /code/run.sh
-    volumes:
-      - ./exam:/code
-      - /var/www/public/static/:/var/www/public/static/	
-      - .exam/media/:/code/media/
-
+    container_name: web_exam
     depends_on:
-      - db_exam
+    - db_exam
+    labels:
+    - traefik.backend=web_exam
+    - traefik.docker.network=proxy
+    - traefik.frontend.rule=Host:exam.service.sci.tu.ac.th;PathPrefix:/
+    - traefik.port=8000
+    networks:
+    - internal
+    - proxy
+    restart: always
+    volumes:
+    - .:/code
+
+networks:
+  internal:
+    external: false
+  proxy:
+    external: true
