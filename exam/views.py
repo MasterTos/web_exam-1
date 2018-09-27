@@ -11,7 +11,7 @@ import ast
 import io
 import xlwt
 from .form import NameForm
-import pandas as pd
+#import pandas as pd
 import math
 from django.contrib.auth.decorators import login_required
 import requests
