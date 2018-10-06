@@ -7,6 +7,7 @@ services:
     - /home/kubelab/data/exam_data:/var/lib/postgresql/data
     networks:
     - internal
+    - db_service
     labels:
     - traefik.enable=false
     restart: always
@@ -51,5 +52,7 @@ services:
 networks:
   internal:
     external: false
+  db_service:
+    external: true
   proxy:
     external: true
